@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controller;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -8,7 +9,20 @@ use Symfony\Component\Routing\Annotation\Route;
 class testy extends AbstractController
 {
     /**
-     * @Route("/arts/{art}")
+     * @Route("/arts/{art}/heart", name="article_toggle_heart", methods={"POST"})
+     */
+    public function toggleArticleHeart($art){
+        return $this->json(["hearts" => random_int(5,100)]);
+    }
+    /**
+     * @Route("/" , name="app_homepage")
+     */
+    public function homepage()
+    {
+        return $this -> render("article/homepage.html.twig");
+    }
+    /**
+     * @Route("/arts/{art}", name="article")
      */
     public function functest($art)
     {
@@ -21,6 +35,7 @@ class testy extends AbstractController
         return $this -> render("article/functest.html.twig",[
             "title" => ucwords(str_replace("-", " ",$art )),
             "comments" => $comments,
+            "art" => $art,
         ]);
     }
 }
