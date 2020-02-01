@@ -18,17 +18,16 @@ class MarkdownHelper
      */
     private $logger;
 
-    public function __construct(AdapterInterface $cashe, MarkdownInterface $markdown, LoggerInterface $logger){
+    public function __construct(AdapterInterface $cashe, MarkdownInterface $markdown, LoggerInterface $markdownLogger){
         $this->cache= $cashe;
         $this->markdown=$markdown;
-        $this->logger = $logger;
+        $this->logger = $markdownLogger;
     }
 
     public function parse(string $source): string{
         if (stripos($source, 'bacon') !== false) {
             $this->logger->info('They are talking about bacon again!');
         }
-
         $item = $this->cache->getItem('markdown_'.md5($source));
 
         if (!$item->isHit()) {
